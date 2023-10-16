@@ -1,0 +1,31 @@
+{
+  "name": "vue-tailwind-template",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/connectshark/vue-tailwind-template"
+  },
+  "license": "MIT",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 5050"
+  },
+  "author": {
+    "name": "Chambers Yeh",
+    "url": "https://github.com/connectshark"
+  },
+  "dependencies": {
+    "pinia": "^2.1.6",
+    "vue": "^3.2.33",
+    "vue-router": "^4.2.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.27",
+    "tailwindcss": "^3.3.3",
+    "unplugin-vue-router": "^0.6.4",
+    "vite": "^4.4.7"
+  }
+}
