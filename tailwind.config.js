@@ -8,6 +8,9 @@ export default {
     extend: {
       colors: {
         primary: 'rgb(var(--color-primary) / <alpha-value>)'
+      },
+      fontFamily: {
+        'Poppins': [`'Poppins'`, `'Noto Sans TC'`, 'sans-serif', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas']
       }
     },
   },
