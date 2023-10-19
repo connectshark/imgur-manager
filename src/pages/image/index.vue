@@ -8,7 +8,7 @@
   <ul v-else>
     <li class=" inline-block align-middle" v-for="img in result.data" :key="img.id">
       <router-link :to="`/image/${ img.id }`">
-        <img loading="lazy" :src="`https://i.imgur.com/${ img.id }s.png`" alt="縮圖">
+        <img loading="lazy" :src="`https://i.imgur.com/${ img.id }s.${ img.type.split('/')[1] }`" alt="縮圖">
       </router-link>
     </li>
   </ul>

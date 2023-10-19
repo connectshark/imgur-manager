@@ -2,10 +2,19 @@
 <DefaultLayout>
 <div class="mx-auto w-11/12">
   <h2 class=" text-2xl/loose">照片詳情 {{ route.params.id }}</h2>
+  <section v-if="deleteResult?.data" class=" text-center">
+    <h3 class="text-3xl/loose">刪除成功</h3>
+    <p>
+      <router-link class=" underline" to="/image">回相片集</router-link>
+    </p>
+  </section>
   <section v-if="result">
     <figure class=" text-center">
       <img class=" inline-block" :src="result.data.link" alt="照片">
     </figure>
+    <div>
+      <CopyBtn :source="result.data.link"/>
+    </div>
     <div>
       <button @click="deleteImg(result.data.deletehash)" class=" text-primary hover:underline" type="button">刪除</button>
     </div>
@@ -18,6 +27,7 @@
 import DefaultLayout from '../../layouts/default.vue'
 import { useRoute } from 'vue-router'
 import useFetch from '../../composables/useFetch'
+import CopyBtn from '../../components/copyBtn.vue'
 
 const route = useRoute()
 
@@ -28,7 +38,8 @@ const {
 
 const {
   doFetch: deleteImage,
-  loading: deleteLoading
+  loading: deleteLoading,
+  result: deleteResult
 } = useFetch(`/image`, {
   method: 'DELETE',
   immediate: false
@@ -41,5 +52,8 @@ const deleteImg = async (deleteHash) => {
       hash: deleteHash
     })
   })
+  if (deleteResult.value.data) {
+    result.value = null
+  }
 }
 </script>

@@ -8,12 +8,25 @@
         <p>拖曳或點擊</p>
         <input @dragover="dragover = true" @dragleave="dragover = false" @drop="dragover = false" accept="image/png, image/jpg, image/jpeg" type="file" id="image" @change="fileHandler($event)" class=" absolute inset-0 opacity-0 cursor-pointer">
       </div>
-      <div class="mb-4">
-        <button class=" hover:opacity-80 bg-primary text-white rounded-lg px-3 py-2" type="submit">上傳</button>
+      <div class="mb-4 text-right">
+        <button
+          :disabled="files.length <= 0 || loading"
+          class="hover:opacity-80 disabled:hover:opacity-100 disabled:cursor-not-allowed disabled:bg-gray-400 bg-primary text-white rounded-lg px-3 py-2"
+          type="submit"
+        >上傳</button>
       </div>
-      <div class="mb-10" v-if="result">
-        <p>{{ result }}</p>
-      </div>
+      <section class="mb-10" v-if="result">
+        <ul class=" flex">
+          <li class=" inline-block align-middle">
+            <figure>
+              <img :src="`https://i.imgur.com/${ img.data.id }s.${ img.data.type.split('/')[1] }`" alt="">
+            </figure>
+            <p>複製連結
+              <CopyBtn :source="img.data.link"/>
+            </p>
+          </li>
+        </ul>
+      </section>
       <ul v-if="files.length > 0" class=" grid grid-cols-4 gap-4">
         <li v-for="img in files" :key="img.id" class=" bg-cover bg-center aspect-square" :style="{ backgroundImage: `url(${img.url})` }">
           <div class="w-full h-full flex items-center justify-center hover:backdrop-blur-sm group">
@@ -33,6 +46,7 @@
 import { ref } from 'vue'
 import DefaultLayout from '../layouts/default.vue'
 import useFetch from '../composables/useFetch'
+import CopyBtn from '../components/copyBtn.vue'
 
 const dragover = ref(false)
 const files = ref([])
@@ -48,9 +62,11 @@ const {
 
 
 const submitHandler = async () => {
-  const img = files.value[0]
+  const imgs = files.value
   const form = new FormData()
-  form.append('img', img.file)
+  imgs.forEach(img => {
+    form.append(img.id, img.file)
+  })
   await uploadImage({
     method: 'POST',
     body: form,
@@ -68,7 +84,6 @@ const fileHandler = async (e) => {
   const reader = new FileReader()
   reader.onloadend = async e => {
     files.value.push({
-      name: img.name,
       url: e.target.result,
       id: Date.now(),
       file: img
