@@ -5,10 +5,10 @@
     <div v-if="loading" class=" text-center">
       <i class='bx bx-loader bx-spin' ></i>
     </div>
-    <ul v-else class="grid grid-cols-2 gap-2">
-      <li v-for="img in result.data" :key="img.id">
-      <router-link :to="`/image/${ img.id }`">
-          <img loading="lazy" :src="img.link" alt="image">
+    <ul v-else>
+      <li class=" inline-block align-middle" v-for="img in result.data" :key="img.id">
+        <router-link :to="`/image/${ img.id }`">
+          <img loading="lazy" :src="`https://i.imgur.com/${ img.id }s.png`" alt="image">
         </router-link>
       </li>
     </ul>
@@ -19,16 +19,13 @@
 <script setup>
 import DefaultLayout from '../../layouts/default.vue'
 import { useRoute } from 'vue-router'
-import { useAlbum } from '../../composables/fetch-core'
+import useFetch from '../../composables/useFetch'
 
 const route = useRoute()
 const albumID = route.params.id
 
 const {
   loading,
-  result,
-  getAlbumImages
-} = useAlbum()
-
-getAlbumImages(albumID)
+  result
+} = useFetch(`/album/${route.params.id}`)
 </script>

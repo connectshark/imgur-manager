@@ -32,21 +32,30 @@
 <script setup>
 import { ref } from 'vue'
 import DefaultLayout from '../layouts/default.vue'
-import { useImages } from '../composables/fetch-core'
+import useFetch from '../composables/useFetch'
 
 const dragover = ref(false)
 const files = ref([])
 const form = ref(null)
 
 const {
+  loading,
   result,
-  uploadImage,
-  loading
-} = useImages()
+  doFetch: uploadImage
+} = useFetch(`/image`, {
+  immediate: false
+})
+
 
 const submitHandler = async () => {
   const img = files.value[0]
-  await uploadImage(img.file)
+  const form = new FormData()
+  form.append('img', img.file)
+  await uploadImage({
+    method: 'POST',
+    body: form,
+    json: false
+  })
 }
 
 const deleteImage = async (imgID) => {

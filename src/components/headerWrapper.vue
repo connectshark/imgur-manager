@@ -5,20 +5,18 @@
       <img src="https://fakeimg.pl/80x40/ccc/000" alt="logo">
     </router-link>
     <ul class=" flex items-center gap-3">
-      <li v-if="!store.isLogin">
+      <li>
+        <router-link class=" hover:underline" to="/album">相簿</router-link>
+      </li>
+      <li>
+        <router-link class=" hover:underline" to="/image">照片</router-link>
+      </li>
+      <li>
+        <router-link class=" hover:underline" to="/upload">上傳</router-link>
+      </li>
+      <li>
         <router-link class=" hover:underline" to="/login">登入</router-link>
       </li>
-      <template v-else>
-        <li>
-          <router-link class=" hover:underline" to="/album">相簿</router-link>
-        </li>
-        <li>
-          <router-link class=" hover:underline" to="/image">照片</router-link>
-        </li>
-        <li>
-          <router-link class=" hover:underline" to="/upload">上傳</router-link>
-        </li>
-      </template>
     </ul>
   </div>
 </header>

@@ -18,15 +18,11 @@
 
 <script setup>
 import DefaultLayout from '../../layouts/default.vue'
-import { onBeforeMount } from 'vue'
-import { useImages } from '../../composables/fetch-core'
+import useFetch from '../../composables/useFetch'
 
 const {
   loading,
-  getAllImages,
   result
-} = useImages()
-
-onBeforeMount(getAllImages)
+} = useFetch(`/image`)
 
 </script>
