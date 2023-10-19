@@ -9,14 +9,12 @@
     </p>
   </section>
   <section v-if="result">
-    <figure class=" text-center">
-      <img class=" inline-block" :src="result.data.link" alt="照片">
+    <figure class="mb-10 text-center">
+      <img class="inline-block" :src="result.data.link" alt="照片">
     </figure>
-    <div>
+    <div class="flex items-center gap-6 justify-end">
       <CopyBtn :source="result.data.link"/>
-    </div>
-    <div>
-      <button @click="deleteImg(result.data.deletehash)" class=" text-primary hover:underline" type="button">刪除</button>
+      <button @click="deleteImg(result.data.deletehash)" class="disabled:cursor-not-allowed rounded-lg hover:underline text-red-400" type="button">刪除</button>
     </div>
   </section>
 </div>

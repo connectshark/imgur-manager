@@ -1,8 +1,8 @@
 <template>
 <DefaultLayout>
   <div class="mx-auto w-11/12">
-    <h2 class=" text-2xl/loose">Albums</h2>
-    <div v-if="loading" class=" text-center">
+    <h2 class="text-2xl/loose">相簿</h2>
+    <div v-if="loading" class="text-center">
       <i class='bx bx-loader bx-spin' ></i>
     </div>
     <div class=" text-center" v-else-if="result.data.length <= 0">

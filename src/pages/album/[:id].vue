@@ -1,7 +1,7 @@
 <template>
 <DefaultLayout>
   <div class="mx-auto w-11/12">
-    <div>ALBUM {{ albumID }}</div>
+    <h2 class="text-2xl/loose">相簿 {{ albumID }}</h2>
     <div v-if="loading" class=" text-center">
       <i class='bx bx-loader bx-spin' ></i>
     </div>

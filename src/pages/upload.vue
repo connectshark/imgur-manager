@@ -1,8 +1,8 @@
 <template>
 <DefaultLayout>
 <div class=" mx-auto w-11/12">
-  <h2 class=" text-2xl/loose">上傳</h2>
   <section>
+    <h2 class=" text-2xl/loose">上傳</h2>
     <form @submit.prevent="submitHandler" ref="form">
       <div class="mb-4 text-center relative py-20 bg-gray-200 hover:opacity-70" :class="{ 'opacity-70': dragover }">
         <p>拖曳或點擊</p>
@@ -15,18 +15,6 @@
           type="submit"
         >上傳</button>
       </div>
-      <section class="mb-10" v-if="result">
-        <ul class=" flex">
-          <li class=" inline-block align-middle">
-            <figure>
-              <img :src="`https://i.imgur.com/${ img.data.id }s.${ img.data.type.split('/')[1] }`" alt="">
-            </figure>
-            <p>複製連結
-              <CopyBtn :source="img.data.link"/>
-            </p>
-          </li>
-        </ul>
-      </section>
       <ul v-if="files.length > 0" class=" grid grid-cols-4 gap-4">
         <li v-for="img in files" :key="img.id" class=" bg-cover bg-center aspect-square" :style="{ backgroundImage: `url(${img.url})` }">
           <div class="w-full h-full flex items-center justify-center hover:backdrop-blur-sm group">
@@ -37,6 +25,19 @@
         </li>
       </ul>
     </form>
+  </section>
+  <section class="mb-10" v-if="result?.length > 0">
+    <h2 class=" text-2xl/loose">已上傳</h2>
+    <ul class=" flex">
+      <li class=" inline-block align-middle" v-for="img in result">
+        <figure>
+          <img :src="`https://i.imgur.com/${ img.data.id }s.${ img.data.type.split('/')[1] }`" alt="">
+        </figure>
+        <p>複製連結
+          <CopyBtn :source="img.data.link"/>
+        </p>
+      </li>
+    </ul>
   </section>
 </div>
 </DefaultLayout>
@@ -72,6 +73,7 @@ const submitHandler = async () => {
     body: form,
     json: false
   })
+  files.value = []
 }
 
 const deleteImage = async (imgID) => {
