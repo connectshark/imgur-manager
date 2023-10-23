@@ -3,7 +3,7 @@
   <div class=" text-center bg-white p-5">
     <div class="mb-4">
       <router-link to="/">
-        <img class=" inline-block" src="https://fakeimg.pl/80x40/ccc/000" alt="logo">
+        <img class="w-8 inline-block" src="../assets/logo.jpg" alt="logo">
       </router-link>
     </div>
     <h1 class="text-2xl/loose mb-4">登入/註冊</h1>

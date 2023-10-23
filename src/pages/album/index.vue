@@ -1,7 +1,12 @@
 <template>
 <DefaultLayout>
   <div class="mx-auto w-11/12">
-    <h2 class="text-2xl/loose">相簿</h2>
+    <div class=" flex items-center justify-between">
+      <h2 class="text-2xl/loose">相簿</h2>
+      <div>
+        <router-link class="hover:underline" to="/album/add">新建</router-link>
+      </div>
+    </div>
     <div v-if="loading" class="text-center">
       <i class='bx bx-loader bx-spin' ></i>
     </div>

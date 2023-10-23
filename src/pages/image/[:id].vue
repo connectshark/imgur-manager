@@ -14,7 +14,7 @@
     </figure>
     <div class="flex items-center gap-6 justify-end">
       <CopyBtn :source="result.data.link"/>
-      <button @click="deleteImg(result.data.deletehash)" class="disabled:cursor-not-allowed rounded-lg hover:underline text-red-400" type="button">刪除</button>
+      <button @click="deleteImg(result.data.deletehash)" class="disabled:cursor-not-allowed rounded-lg hover:underline" type="button">刪除</button>
     </div>
   </section>
 </div>
@@ -44,6 +44,8 @@ const {
 })
 
 const deleteImg = async (deleteHash) => {
+  const response = window.confirm('確定刪除？')
+  if (!response) return
   await deleteImage({
     method: 'DELETE',
     body: JSON.stringify({
