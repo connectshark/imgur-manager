@@ -5,10 +5,14 @@ const useFetch = ( uri, options ) => {
   const DOMAIN = import.meta.env.VITE_API_DOMAIN + '/imgur'
   const loading = ref(false)
   const result = ref(null)
+  const error = ref(null)
   const store = useUserStore()
 
   const doFetch = async (content) => {
     loading.value = true
+    result.value = null
+    error.value = null
+
     const API_URL = DOMAIN + uri
     const fetchOptions = {
       method: content?.method || 'GET',
@@ -28,8 +32,14 @@ const useFetch = ( uri, options ) => {
     }
 
     const fetch_response = await fetch(API_URL, fetchOptions)
-    const res = await fetch_response.json()
-    result.value = res
+    
+    if (fetch_response.ok === false) {
+      error.value = fetch_response.statusText
+    } else { 
+      const res = await fetch_response.json()
+      result.value = res
+    }
+
     loading.value = false
   }
 
@@ -42,7 +52,8 @@ const useFetch = ( uri, options ) => {
   return {
     loading,
     result,
-    doFetch
+    doFetch,
+    error
   }
 }
 

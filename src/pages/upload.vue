@@ -6,14 +6,26 @@
     <form @submit.prevent="submitHandler" ref="form">
       <div class="mb-4 text-center relative py-20 bg-gray-200 hover:opacity-70" :class="{ 'opacity-70': dragover }">
         <p>拖曳或點擊</p>
-        <input @dragover="dragover = true" @dragleave="dragover = false" @drop="dragover = false" accept="image/png, image/jpg, image/jpeg" type="file" id="image" @change="fileHandler($event)" class=" absolute inset-0 opacity-0 cursor-pointer">
+        <input
+          multiple
+          @dragover="dragover = true"
+          @dragleave="dragover = false"
+          @drop="dragover = false"
+          accept="image/png, image/jpg, image/jpeg"
+          type="file"
+          id="image"
+          @change="fileHandler($event)"
+          class="absolute inset-0 opacity-0 cursor-pointer"
+        >
       </div>
       <div class="mb-4 text-right">
         <button
+          v-if="store.isLogin"
           :disabled="files.length <= 0 || loading"
           class="hover:opacity-80 disabled:hover:opacity-100 disabled:cursor-not-allowed disabled:bg-gray-400 bg-primary text-white rounded-lg px-3 py-2"
           type="submit"
         >上傳</button>
+        <p v-else>需登入</p>
       </div>
       <ul v-if="files.length > 0" class=" grid grid-cols-4 gap-4">
         <li v-for="img in files" :key="img.id" class=" bg-cover bg-center aspect-square" :style="{ backgroundImage: `url(${img.url})` }">
@@ -48,6 +60,9 @@ import { ref } from 'vue'
 import DefaultLayout from '../layouts/default.vue'
 import useFetch from '../composables/useFetch'
 import CopyBtn from '../components/copyBtn.vue'
+import { useUserStore } from '../stores/user'
+
+const store = useUserStore()
 
 const dragover = ref(false)
 const files = ref([])
@@ -82,16 +97,25 @@ const deleteImage = async (imgID) => {
 }
 
 const fileHandler = async (e) => {
-  const img = e.target.files[0]
-  const reader = new FileReader()
-  reader.onloadend = async e => {
-    files.value.push({
-      url: e.target.result,
-      id: Date.now(),
-      file: img
-    })
-    form.value.reset()
-  }
-  reader.readAsDataURL(img)
+  const filesArray = Object.values(e.target.files)
+  const readers = []
+  filesArray.forEach(img => readers.push(reader(img)))
+  await Promise.all(readers)
+  form.value.reset()
+}
+
+const reader = (img) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onloadend = async e => {
+      files.value.push({
+        url: e.target.result,
+        id: Date.now(),
+        file: img
+      })
+      resolve()
+    }
+    reader.readAsDataURL(img)
+  })
 }
 </script>

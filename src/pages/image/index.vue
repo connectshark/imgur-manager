@@ -5,6 +5,12 @@
   <div v-if="loading" class=" text-center">
     <i class='bx bx-loader bx-spin' ></i>
   </div>
+  <div v-else-if="error">
+    <p>發生錯誤: {{ error }}</p>
+  </div>
+  <div class=" text-center" v-else-if="result.data.length <= 0">
+    <p>無相片</p>
+  </div>
   <ul v-else>
     <li class=" inline-block align-middle" v-for="img in result.data" :key="img.id">
       <router-link :to="`/image/${ img.id }`">
@@ -22,7 +28,8 @@ import useFetch from '../../composables/useFetch'
 
 const {
   loading,
-  result
+  result,
+  error
 } = useFetch(`/image`)
 
 </script>
