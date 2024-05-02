@@ -7,7 +7,13 @@ const useFetch = ( uri, options ) => {
   const result = ref(null)
   const error = ref(null)
   const store = useUserStore()
-
+  /**
+   * Fetch data from the API.
+   * @param {object} content - Content options for the fetch.
+   * @param {string} content.method - 方法，預設是GET
+   * @param {string} content.json - 內容是否是json，預設是true
+   * @param {object} content.body - body內容
+   */
   const doFetch = async (content) => {
     loading.value = true
     result.value = null
@@ -21,11 +27,9 @@ const useFetch = ( uri, options ) => {
       }
     }
 
-    const isJson = (content?.json === false) ? false : true
-    if (isJson) {
+    if (content?.json !== false) {
       fetchOptions.headers['Content-Type'] = 'application/json'
     }
-
 
     if (content?.body) {
       fetchOptions.body = content.body
@@ -43,7 +47,7 @@ const useFetch = ( uri, options ) => {
     loading.value = false
   }
 
-  const isImmediate = (options?.immediate === false) ? false : true
+  const isImmediate = options?.immediate !== false
 
   if (isImmediate) {
     doFetch()

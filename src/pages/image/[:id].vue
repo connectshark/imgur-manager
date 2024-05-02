@@ -9,13 +9,16 @@
     </p>
   </section>
   <section v-if="result">
-    <figure class="mb-10 text-center">
-      <img class="inline-block" :src="result.data.link" alt="照片">
-    </figure>
-    <div class="flex items-center gap-6 justify-end">
-      <CopyBtn :source="result.data.link"/>
-      <button @click="deleteImg(result.data.deletehash)" class="disabled:cursor-not-allowed rounded-lg hover:underline" type="button">刪除</button>
+    <div class="mb-10 flex items-center gap-6 justify-between">
+      <router-link to="/image" class=" underline"><i class='bx bx-chevron-left'></i>回上一頁</router-link>
+      <div class=" space-x-4">
+        <CopyBtn :source="result.data.link"/>
+        <button v-if="store.isLogin" @click="deleteImg(result.data.deletehash)" class="disabled:cursor-not-allowed rounded-lg hover:underline" type="button">刪除</button>
+      </div>
     </div>
+    <figure class="">
+      <img class="max-w-96 aspect-square object-contain mx-auto" :src="result.data.link" alt="照片">
+    </figure>
   </section>
 </div>
 </DefaultLayout>
@@ -26,6 +29,9 @@ import DefaultLayout from '../../layouts/default.vue'
 import { useRoute } from 'vue-router'
 import useFetch from '../../composables/useFetch'
 import CopyBtn from '../../components/copyBtn.vue'
+import { useUserStore } from '../../stores/user'
+
+const store = useUserStore()
 
 const route = useRoute()
 
