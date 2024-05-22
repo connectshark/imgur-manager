@@ -14,25 +14,25 @@ const useFetch = ( uri, options ) => {
    * @param {string} content.json - 內容是否是json，預設是true
    * @param {object} content.body - body內容
    */
-  const doFetch = async (content) => {
+  const doFetch = async ({ method, page, json, body } = { method: 'GET', page: 0, json: true, body: undefined }) => {
     loading.value = true
     result.value = null
     error.value = null
 
-    const API_URL = DOMAIN + uri
+    const API_URL = DOMAIN + uri + `?page=${ page }`
     const fetchOptions = {
-      method: content?.method || 'GET',
+      method: method,
       headers: {
         Authorization: `Bearer ${store.token}`
       }
     }
 
-    if (content?.json !== false) {
+    if (!json) {
       fetchOptions.headers['Content-Type'] = 'application/json'
     }
 
-    if (content?.body) {
-      fetchOptions.body = content.body
+    if (body) {
+      fetchOptions.body = body
     }
 
     const fetch_response = await fetch(API_URL, fetchOptions)
